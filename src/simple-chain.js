@@ -1,33 +1,28 @@
-let resultLink = '';
+let arrResult = [];
 const chainMaker = {
   getLength() {
-    return resultLink.length;
+    return arrResult.length;
   },
   addLink(value) {
-    if (resultLink === '') {
-      resultLink = `( ${value} )`;
-    } else {
-      resultLink += `~~( ${value} )`;
-    }
+    arrResult.push(`( ${value} )`);
     return this;
   },
   removeLink(position) {
-    let arrElements = resultLink.split('~~');
-    if (position > 0 && position <= arrElements.length) {
-      resultLink = arrElements.filter((el, index) => index != position - 1).join('~~');
+    if (position > 0 && position <= this.getLength()) {
+      arrResult = arrResult.filter((el, index) => index != position - 1);
     } else {
-      resultLink = '';
+      arrResult = [];
       throw new Error('Invalid remove position');
     }
     return this;
   },
   reverseChain() {
-    resultLink = resultLink.split('~~').reverse().join('~~');
+    arrResult.reverse();
     return this;
   },
   finishChain() {
-    const result = resultLink;
-    resultLink = '';
+    const result = arrResult.join('~~');
+    arrResult = [];
     return result;
   }
 };
